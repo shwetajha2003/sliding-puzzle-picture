@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Picture Puzzle</title>
+  <style>
+    .puzzle-container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 400px;
+      height: 400px;
+    }
+    
+    .puzzle-item {
+      width: 200px;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Picture Puzzle</h1>
+  <div class="puzzle-container">
+    <div class="puzzle-item" id="item1" onclick="swapTiles(1)"></div>
+    <div class="puzzle-item" id="item2" onclick="swapTiles(2)"></div>
+    <div class="puzzle-item" id="item3" onclick="swapTiles(3)"></div>
+    <div class="puzzle-item" id="item4" onclick="swapTiles(4)"></div>
+  </div>
+
+  <script>
+    var tiles = [1, 2, 3, 4]; // Initial tile arrangement
+    
+    function swapTiles(tile) {
+      var emptyTileIndex = tiles.indexOf(4);
+      var tileIndex = tiles.indexOf(tile);
+      
+      if (isValidMove(tileIndex, emptyTileIndex)) {
+        tiles[emptyTileIndex] = tile;
+        tiles[tileIndex] = 4;
+        updatePuzzle();
+        checkWin();
+      }
+    }
+    
+    function isValidMove(tileIndex, emptyTileIndex) {
+      var validMoves = [[1, 3], [0, 2, 4], [1, 5], [0, 4, 6], [1, 3, 5, 7], [2, 4, 8], [3, 7], [4, 6, 8], [5, 7]];
+      
+      return validMoves[emptyTileIndex].includes(tileIndex);
+    }
+    
+    function updatePuzzle() {
+      var puzzleItems = document.getElementsByClassName("puzzle-item");
+      
+      for (var i = 0; i < puzzleItems.length; i++) {
+        puzzleItems[i].style.backgroundImage = "url('image" + tiles[i] + ".jpg')";
+      }
+    }
+    
+    function checkWin() {
+      if (tiles.toString() === "1,2,3,4") {
+        alert("Congratulations! You solved the puzzle!");
+      }
+    }
+    
+   
+    updatePuzzle();
+  </script>
+</body>
+</html>
